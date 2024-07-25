@@ -8,6 +8,7 @@ RUN apk update && \
 COPY script.sh /script.sh
 RUN chmod 755 /script.sh
 
+RUN apk add mariadb
 RUN apk add mysql
 
 # RUN /script.sh
