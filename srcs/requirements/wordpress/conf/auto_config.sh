@@ -1,7 +1,7 @@
 #!/bin/sh
 
 sleep 10
-if !file_exists("/var/www/wordpress/wp-config.php")
+if (!file_exists("/var/www/wordpress/wp-config.php"))
 	wp config create ==allow-root \
 		--dbname=$SQL_DATABASE \
 		--dbuser=$SQL_USER \
