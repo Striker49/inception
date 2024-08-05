@@ -1,26 +1,39 @@
 #!/bin/sh
 
-# Add MariaDB paths to PATH
-export PATH="/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/usr/libexec/mariadb:$PATH"
+# Start mariadb service
+if ! rc-service mariadb status | grep -q started;
+then
+    rc-service mariadb start
+fi
+while ! rc-service mariadb status | grep -q started;
+do
+    echo "MariaDB is not running. Waiting..."
+    sleep 1
+done
 
-# Initialize MariaDB
-mysql_install_db --user=root --basedir=/usr --datadir=/var/lib/mysql
+# Check if database exists
+if [ ! -d "/var/lib/mysql/$MYSQL_DATABASE" ]
+then
+mysql_secure_installation <<EOF
 
-# Start MariaDB server in the background
-mysqld_safe --datadir=/var/lib/mysql &
+Y
+Y
+$MYSQL_ROOT_PASSWORD
+$MYSQL_ROOT_PASSWORD
+Y
+n
+Y
+Y
+EOF
 
-# Wait for MariaDB to start
-sleep 10
+echo "GRANT ALL ON *.* TO 'root'@'%' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; FLUSH PRIVILEGES;" | mysql -u root
+echo "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; GRANT ALL ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; FLUSH PRIVILEGES;" | mysql -u root
 
-# Execute SQL commands
-mysql -u root -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;"
-mysql -u root -e "CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'localhost' IDENTIFIED BY '${SQL_PASSWORD}';"
-mysql -u root -e "GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';"
-mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
-mysql -u root -e "FLUSH PRIVILEGES;"
+else
+    echo "Database $MYSQL_DATABASE already exists"
+fi
 
-# Shutdown MariaDB
-mysqladmin -u root -p${SQL_ROOT_PASSWORD} shutdown
+# Stop mariadb service
+rc-service mariadb stop
 
-# Start MariaDB server in the foreground
 exec mysqld_safe --datadir=/var/lib/mysql
