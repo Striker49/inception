@@ -14,7 +14,6 @@ fclean:
 	sudo docker rm -vf $$(docker ps -aq); \
 	make prune
 re:
-	make stop
-	make prune
 	make delete_volumes
+	make prune
 	make start
