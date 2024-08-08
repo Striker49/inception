@@ -17,7 +17,7 @@ RUN chmod -R 755 /var/www/html
 
 COPY conf/www.conf /etc/php82/php-fpm.d/www.conf
 
-COPY auto_config.sh /var/www/auto_config.sh
+COPY tools/auto_config.sh /var/www/auto_config.sh
 
 RUN chmod +x /var/www/auto_config.sh
 

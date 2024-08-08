@@ -16,7 +16,7 @@ services:
   nginx:
     container_name: nginx
     volumes:
-      - wordpress:/var/www/wordpress
+      - wordpress:/var/www/html
     networks:
       - inception
     depends_on:
@@ -40,7 +40,7 @@ services:
       - mariadb
     env_file: .env
     volumes:
-      - wordpress:/var/www/wordpress
+      - wordpress:/var/www/html
     restart: unless-stopped
     expose:
       - "9000"

@@ -7,7 +7,7 @@ RUN apk update && \
     rm -f /var/cache/apk/*
 
 # Copy the setup script into the image
-COPY script.sh /script.sh
+COPY /tools/script.sh /script.sh
 COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 
 # Make the script executable

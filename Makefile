@@ -10,8 +10,8 @@ delete_volumes:
 	make stop
 	sudo docker volume ls -q | xargs sudo docker volume rm
 fclean:
-	sudo docker rmi -f $$(docker images -qa); \
-	sudo docker rm -vf $$(docker ps -aq); \
+	sudo docker rmi -f $$(sudo docker images -qa); \
+	sudo docker rm -vf $$(sudo docker ps -aq); \
 	make prune
 re:
 	make delete_volumes
