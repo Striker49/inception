@@ -6,19 +6,18 @@ RUN apk update && \
     apk add --no-cache mysql mysql-client openrc && \
     rm -f /var/cache/apk/*
 
-# Copy the setup script into the image
+# Copy the setup script and conf into the image
 COPY /tools/script.sh /script.sh
 COPY ./conf/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 
-# Make the script executable
-# RUN chmod -R 755 /sys/
+# Give the script and conf permission
 RUN chmod +x /script.sh
 RUN chmod +x /etc/my.cnf.d/mariadb-server.cnf
 
 # Create folder for db and set permissions
 RUN mkdir -p /var/lib/mysql
-RUN chmod +x /var/lib/mysql
 RUN mkdir -p /run/mysqld
+RUN chmod +x /var/lib/mysql
 RUN chmod +x /run/mysqld
 
 # Configure MariaDB to run as root

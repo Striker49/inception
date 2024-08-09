@@ -11,5 +11,5 @@ else
 	wp user create $WORDPRESS_USER $WORDPRESS_EMAIL --role=author --user_pass=$WORDPRESS_PASSWORD --allow-root;
 fi
 
-echo "Starting Wordpress"
+echo "Wordpress has been setup"
 exec /usr/sbin/php-fpm82 -F

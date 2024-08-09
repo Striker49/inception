@@ -1,6 +1,6 @@
 start:
 	cd srcs/ && \
-	sudo docker-compose up --build
+	sudo sudo docker-compose up --build
 stop:
 	cd srcs/ && \
 	sudo docker-compose down
