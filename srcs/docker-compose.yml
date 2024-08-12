@@ -6,7 +6,10 @@ services:
     build:
       context: requirements/mariadb
       dockerfile: Dockerfile
-    env_file: .env
+    env_file:
+      - .env
+      - ../secrets/db_password.txt
+      - ../secrets/db_root_password.txt
     volumes:
       - mariadb:/var/lib/mysql
     expose:
@@ -38,7 +41,10 @@ services:
     build:
       context: requirements/wordpress
       dockerfile: Dockerfile
-    env_file: .env
+    env_file:
+      - .env
+      - ../secrets/db_password.txt
+      - ../secrets/db_root_password.txt
     volumes:
       - wordpress:/var/www/html
     expose:

@@ -9,7 +9,12 @@ prune:
 delete_volumes:
 	make stop
 	sudo docker volume ls -q | xargs sudo docker volume rm
+exec_mariadb:
+	sudo docker exec -it mariadb sh
+exec_wp:
+	sudo docker exec -it wordpress sh
 fclean:
+	make delete_volumes
 	sudo rm -rf /home/$(USER)/data/mariadb
 	sudo rm -rf /home/$(USER)/data/wordpress
 	sudo docker rmi -f $$(sudo docker images -qa); \
