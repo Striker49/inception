@@ -4,7 +4,7 @@ FROM alpine:3.19
 RUN apk update && \
     apk add --no-cache curl php82 php82-cgi php82-mysqli php82-pdo_mysql php82-fpm php82-phar php82-json php82-mbstring php82-curl php82-openssl mysql-client
 
-# Download CLI, give permissions and move exucutable to image
+# Download CLI, give permissions and move executable to image
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp

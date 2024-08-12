@@ -47,8 +47,18 @@ services:
 
 volumes:
   wordpress:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/seroy/data/wordpress'
   mariadb:
-
+    driver: local
+    driver_opts:
+      type: 'none' 
+      o: 'bind'
+      device: '/home/seroy/data/mariadb'
+      
 networks:
   inception:
     driver: bridge
